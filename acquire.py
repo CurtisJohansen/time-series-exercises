@@ -38,7 +38,7 @@ def get_df(name):
     returns a df containing all pages and creates a .csv file for future use.
     """
     
-    base_url = 'https://python.zach.lol'
+    base_url = 'https://python.zgulde.net'
     api_url = base_url + '/api/v1/'
     response = requests.get(api_url + name)
     data = response.json()
