@@ -9,6 +9,34 @@ import os
 
 ######################## ACQUIRE FUNCTIONS #################################
 
+def get_items():
+    '''
+    returns dataframe of all items either through system cache or via an api
+    '''
+    if os.path.isfile('items.csv'):
+        df = pd.read_csv('items.csv')
+        return df
+    else: 
+        items_list = []
+    
+        response = requests.get(base_url+'/api/v1/items')
+        data = response.json()
+        n = data['payload']['max_page']
+    
+        for i in range(1,n+1):
+            url = base_url+'/api/v1/items?page='+str(i)
+            response = requests.get(url)
+            data = response.json()
+            page_items = data['payload']['items']
+            items_list += page_items
+        
+        df = pd.DataFrame(items_list)
+            
+            
+        df.to_csv('items.csv', index=False)
+    return df
+    
+
 #################### GERMANY ENERGY FUNCTION #####################
 
 def get_germany():
